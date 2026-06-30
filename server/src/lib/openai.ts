@@ -2,8 +2,6 @@ import OpenAI from 'openai';
 import type { Story, Comment, StorySummary } from '../types';
 import { stripHtml } from './hn';
 
-const MODEL = 'gpt-4o-mini';
-
 const SYSTEM_PROMPT = `You summarize Hacker News discussion threads for someone skimming the site.
 Given a story title and its comments, write:
 - a 1-2 sentence TL;DR of what the discussion is about, then
@@ -16,7 +14,6 @@ function getClient(): OpenAI {
   return openaiClient;
 }
 
-/** Flatten a comment tree into an indented `author: text` transcript for the prompt. */
 export function buildTranscript(comments: Comment[]): string {
   const lines: string[] = [];
   const walk = (nodes: Comment[], depth: number) => {
@@ -42,7 +39,7 @@ export async function summarizeDiscussion(story: Story, comments: Comment[]): Pr
   const transcript = buildTranscript(comments);
   try {
     const response = await getClient().responses.create({
-      model: MODEL,
+      model: process.env.OPENAI_MODEL ?? 'gpt-4o-mini',
       instructions: SYSTEM_PROMPT,
       input: `Story: ${story.title}\n\nComments:\n${transcript}`,
     });

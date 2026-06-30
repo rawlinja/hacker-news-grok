@@ -1,14 +1,12 @@
+import { config } from 'dotenv';
+import { fileURLToPath } from 'node:url';
 import express, { type ErrorRequestHandler } from 'express';
 import cors from 'cors';
 import feedRouter from './routes/feed';
 import storyRouter from './routes/story';
 import summaryRouter from './routes/summary';
 
-try {
-  process.loadEnvFile();
-} catch {
-  /* empty */
-}
+config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
 const app = express();
 app.use(cors());
