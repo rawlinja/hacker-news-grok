@@ -10,6 +10,7 @@ export interface Story {
   type: string;
   url?: string;
   text?: string;
+  tags: string[];
 }
 
 export interface Comment {
