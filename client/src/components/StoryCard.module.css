@@ -1,0 +1,28 @@
+.card { padding: 14px 0; border-bottom: 1px solid var(--border); }
+
+.title {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 0 0 6px;
+  overflow-wrap: anywhere;
+}
+
+.title a { text-decoration: none; }
+.domain { color: var(--muted); font-size: 0.8rem; font-weight: 400; margin-left: 6px; }
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.comments {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 4px 0;
+}
