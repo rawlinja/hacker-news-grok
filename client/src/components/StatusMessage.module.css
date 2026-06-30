@@ -1,0 +1,13 @@
+.status { text-align: center; color: var(--muted); padding: 32px 0; }
+
+.status button {
+  margin-top: 8px;
+  min-height: var(--tap);
+  padding: 12px 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.status button:active { background: var(--border); }

@@ -1,0 +1,29 @@
+.app {
+  width: 100%;
+  padding: 0 16px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 0;
+  padding-top: max(14px, env(safe-area-inset-top));
+  background: var(--bg);
+  border-bottom: 2px solid var(--accent);
+}
+
+.brand { font-weight: 700; font-size: 1.2rem; text-decoration: none; }
+.tagline { display: none; color: var(--muted); font-size: 0.8rem; }
+.main { padding: 16px 0 calc(64px + env(safe-area-inset-bottom)); }
+
+/* Enhance for tablet/desktop: center and cap width, reveal the tagline. */
+@media (min-width: 700px) {
+  .app { max-width: 680px; margin: 0 auto; }
+  .tagline { display: inline; }
+}
