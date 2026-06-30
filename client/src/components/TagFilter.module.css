@@ -1,0 +1,29 @@
+.filter { margin-bottom: 12px; }
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.clear { border: none; background: none; color: var(--accent); cursor: pointer; font-size: 0.85rem; }
+
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+
+.chip, .chipActive {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.chipActive { border-color: var(--accent); color: var(--accent); font-weight: 600; }
