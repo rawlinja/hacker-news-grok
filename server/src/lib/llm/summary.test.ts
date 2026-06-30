@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { buildTranscript } from './openai';
-import type { Comment } from '../types';
+import { buildTranscript } from './summary';
+import type { Comment } from '../../types';
 
 const comment = (id: number, by: string, text: string, replies: Comment[] = []): Comment => ({
   id,
