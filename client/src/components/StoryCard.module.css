@@ -26,3 +26,13 @@
   font-weight: 600;
   padding: 4px 0;
 }
+
+.tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+
+.tag {
+  font-size: 0.72rem;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 8px;
+}

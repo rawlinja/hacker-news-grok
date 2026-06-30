@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Story } from '../types'
 import { domainOf, relativeAge } from '../lib/format'
+import { TAG_LABELS, type Tag } from '../lib/tags'
 import styles from './StoryCard.module.css'
 
 export default function StoryCard({ story }: { story: Story }) {
@@ -23,6 +24,13 @@ export default function StoryCard({ story }: { story: Story }) {
         <span>{relativeAge(story.time)}</span>
         <Link to={detailPath} className={styles.comments}>{story.descendants} comments</Link>
       </div>
+      {story.tags.length > 0 && (
+        <div className={styles.tags}>
+          {story.tags.map((tag) => (
+            <span key={tag} className={styles.tag}>{TAG_LABELS[tag as Tag] ?? tag}</span>
+          ))}
+        </div>
+      )}
     </article>
   )
 }

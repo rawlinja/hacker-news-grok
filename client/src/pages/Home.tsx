@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
-import { getFeed } from '../api'
-import type { Feed, Story } from '../types'
+import { useEffect } from 'react'
 import StoryCard from '../components/StoryCard'
 import StatusMessage from '../components/StatusMessage'
+import TagFilter from '../components/TagFilter'
+import { useFeedStore } from '../store/feedStore'
+import { deriveTagFacets, filterByTags } from '../lib/tags'
+import type { Feed } from '../types'
 import styles from './Home.module.css'
 
 const TABS: { key: Feed; label: string }[] = [
@@ -12,35 +14,22 @@ const TABS: { key: Feed; label: string }[] = [
 ]
 
 export default function Home() {
-  const [feed, setFeed] = useState<Feed>('top')
-  const [page, setPage] = useState(0)
-  const [stories, setStories] = useState<Story[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const feed = useFeedStore((state) => state.feed)
+  const loadedStories = useFeedStore((state) => state.loadedStories)
+  const loading = useFeedStore((state) => state.loading)
+  const error = useFeedStore((state) => state.error)
+  const selectedTags = useFeedStore((state) => state.selectedTags)
+  const ensureLoaded = useFeedStore((state) => state.ensureLoaded)
+  const loadMore = useFeedStore((state) => state.loadMore)
+  const selectFeed = useFeedStore((state) => state.selectFeed)
+  const retry = useFeedStore((state) => state.retry)
 
-  const load = useCallback(async (which: Feed, pageNum: number) => {
-    setLoading(true)
-    setError(false)
-    try {
-      const batch = await getFeed(which, pageNum)
-      setStories((prev) => (pageNum === 0 ? batch : [...prev, ...batch]))
-    } catch {
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const facets = deriveTagFacets(loadedStories)
+  const visibleStories = filterByTags(loadedStories, selectedTags)
 
   useEffect(() => {
-    load(feed, page)
-  }, [feed, page, load])
-
-  function selectFeed(next: Feed) {
-    if (next === feed) return
-    setStories([])
-    setPage(0)
-    setFeed(next)
-  }
+    ensureLoaded()
+  }, [ensureLoaded])
 
   return (
     <div>
@@ -58,18 +47,19 @@ export default function Home() {
         ))}
       </div>
 
-      {error && stories.length === 0 ? (
-        <StatusMessage onRetry={() => load(feed, page)}>Couldn’t load stories.</StatusMessage>
+      {error && loadedStories.length === 0 ? (
+        <StatusMessage onRetry={() => retry()}>Couldn’t load stories.</StatusMessage>
       ) : (
         <>
-          {stories.map((story) => <StoryCard key={story.id} story={story} />)}
+          {loadedStories.length > 0 && <TagFilter facets={facets} />}
+          {visibleStories.map((story) => <StoryCard key={story.id} story={story} />)}
           {loading && <StatusMessage>Loading…</StatusMessage>}
-          {!loading && stories.length > 0 && (
-            <button type="button" className={styles.loadMore} onClick={() => setPage((p) => p + 1)}>
+          {!loading && loadedStories.length > 0 && (
+            <button type="button" className={styles.loadMore} onClick={() => loadMore()}>
               Load more
             </button>
           )}
-          {!loading && !error && stories.length === 0 && <StatusMessage>No stories here.</StatusMessage>}
+          {!loading && !error && loadedStories.length === 0 && <StatusMessage>No stories here.</StatusMessage>}
         </>
       )}
     </div>

@@ -6,7 +6,7 @@ import type { Story } from '../types'
 const story: Story = {
   id: 7, title: 'A neat thing', by: 'pg', score: 123,
   time: Math.floor(Date.now() / 1000) - 3600, descendants: 45, type: 'story',
-  url: 'https://www.example.com/post',
+  url: 'https://www.example.com/post', tags: [],
 }
 
 function renderCard(s: Story) {
@@ -34,4 +34,10 @@ test('links the comment count to the detail route', () => {
 test('text post without url titles link to the detail route', () => {
   renderCard({ ...story, url: undefined })
   expect(screen.getByRole('link', { name: 'A neat thing' })).toHaveAttribute('href', '/story/7')
+})
+
+test('renders the story tags as labels', () => {
+  renderCard({ ...story, tags: ['ai_ml', 'paper'] })
+  expect(screen.getByText('AI/ML')).toBeInTheDocument()
+  expect(screen.getByText('Paper')).toBeInTheDocument()
 })
