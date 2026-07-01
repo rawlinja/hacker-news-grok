@@ -16,7 +16,8 @@ router.get('/', async (req, res) => {
   const page = Number.parseInt(String(req.query.page ?? '0'), 10) || 0;
 
   const stories = await getStories(feed, page);
-  res.json(await attachTags(stories));
+  const storiesWithTags = await attachTags(stories);
+  res.json(storiesWithTags);
 });
 
 export default router;
