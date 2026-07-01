@@ -1,4 +1,5 @@
 export const SUMMARY_PROMPT = `You summarize Hacker News discussion threads for someone skimming the site.
+Comments are indented to show reply nesting: deeper indentation is a reply to the comment directly above it.
 Given a story title and its comments, write:
 - a 1-2 sentence TL;DR of what the discussion is about, then
 - 3-5 short bullets covering the main points, the strongest disagreement, and any notable insight.
