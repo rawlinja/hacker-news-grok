@@ -2,15 +2,20 @@ import type { Story } from '../../types';
 import { getClient } from './client';
 import { TAG_VOCAB, TAGGING_PROMPT } from './prompts';
 
-const VOCAB = new Set<string>(TAG_VOCAB);
+const ALLOWED_TAGS = new Set<string>(TAG_VOCAB);
 
 export function buildTagInput(stories: Story[]) {
-  return stories.map((s) => ({ id: s.id, title: s.title, url: s.url, type: s.type }));
+  return stories.map((story) => ({ id: story.id, title: story.title, url: story.url, type: story.type }));
 }
 
 export function parseTagResults(rawJson: string): Map<number, string[]> {
-  const parsed = JSON.parse(rawJson) as { results: { id: number; tags: string[] }[] };
-  return new Map(parsed.results.map((r) => [r.id, r.tags.filter((t) => VOCAB.has(t))]));
+  const parsedResponse = JSON.parse(rawJson) as { results: { id: number; tags: string[] }[] };
+  return new Map(
+    parsedResponse.results.map((result) => [
+      result.id,
+      result.tags.filter((tag) => ALLOWED_TAGS.has(tag)),
+    ]),
+  );
 }
 
 export async function tagStories(stories: Story[]): Promise<Map<number, string[]>> {
@@ -59,12 +64,14 @@ const tagCache = new Map<number, string[]>();
 
 export async function attachTags(
   stories: Story[],
-  tagger: (s: Story[]) => Promise<Map<number, string[]>> = tagStories,
+  tagger: (stories: Story[]) => Promise<Map<number, string[]>> = tagStories,
 ): Promise<Story[]> {
-  const uncached = stories.filter((s) => !tagCache.has(s.id));
-  if (uncached.length) {
-    const fresh = await tagger(uncached);
-    for (const s of uncached) tagCache.set(s.id, fresh.get(s.id) ?? []);
+  const untaggedStories = stories.filter((story) => !tagCache.has(story.id));
+  if (untaggedStories.length > 0) {
+    const freshTags = await tagger(untaggedStories);
+    for (const story of untaggedStories) {
+      tagCache.set(story.id, freshTags.get(story.id) ?? []);
+    }
   }
-  return stories.map((s) => ({ ...s, tags: tagCache.get(s.id) ?? [] }));
+  return stories.map((story) => ({ ...story, tags: tagCache.get(story.id) ?? [] }));
 }
