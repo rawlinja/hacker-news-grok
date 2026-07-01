@@ -1,6 +1,21 @@
 import type { Story } from '../types';
 
-export function fromFirebaseItem(item: any): Story {
+export interface FirebaseItem {
+  id: number;
+  type?: string;
+  title?: string;
+  by?: string;
+  score?: number;
+  time?: number;
+  descendants?: number;
+  url?: string;
+  text?: string;
+  kids?: number[];
+  deleted?: boolean;
+  dead?: boolean;
+}
+
+export function toStory(item: FirebaseItem): Story {
   return {
     id: item.id,
     title: item.title ?? '',

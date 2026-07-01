@@ -21,6 +21,11 @@ export interface Comment {
   replies: Comment[];
 }
 
+export interface StoryWithComments {
+  story: Story;
+  comments: Comment[];
+}
+
 export interface StorySummary {
   summary: string;
   commentsUsed: number;
