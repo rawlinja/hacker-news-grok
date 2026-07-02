@@ -14,13 +14,13 @@ pids=()
 cleanup() {
   trap - INT TERM EXIT
   echo
-  echo "Stopping dev servers..."
+  echo "Stopping servers..."
   for pid in "${pids[@]}"; do kill "$pid" 2>/dev/null || true; done
   wait 2>/dev/null || true
 }
 trap cleanup INT TERM EXIT
 
-(cd "$ROOT/server" && exec pnpm dev) &
+(cd "$ROOT/server" && exec pnpm start) &
 pids+=($!)
 
 (cd "$ROOT/client" && exec pnpm dev) &

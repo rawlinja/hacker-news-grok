@@ -17,9 +17,7 @@ Open http://localhost:5173. Run the tests with `./scripts/test.sh` (both suites)
 
 ## What I built
 
-
 The feed and story data come from Hacker News's API, so that part was already in place. My focus was requirements 3 and 4. I send the story and its comment thread to the LLM to generate a summary. Each story is also tagged from a small fixed set of topics so the feed can be filtered.
-
 
 ## What works
 
@@ -36,18 +34,16 @@ Sort, keyword search, and chat were considered and cut.
 
 ## Tradeoffs
 
-- **Tagging, not search.** For "find what I care about," I had the AI label each story by topic and let you filter on those labels, instead of a search box.
-- **A small fixed set of tags, not open-ended.** A handful of topics instead of free-form. The AI can only pick from the list, so it stays reliable.
-- **Filter the loaded feed, not all of HN.** Filtering runs over the stories already loaded (~30-90), not the whole site.
+- **Tagging, not search.** For "find what I care about," I had the AI label each story by topic and let you filter on those labels. I opted not to implement a search box.
+- **A small fixed set of tags, not open-ended.** A handful of topics instead of free-form. The AI can only pick from the list.
+- **Filter the loaded feed, not all of HN.** Filtering runs over the stories already loaded (~30-90), and not the whole site.
 - **Tag from the title, URL, and type, not the article.** I tag from the data already returned by the Hacker News feed instead of fetching every linked article. It's faster and cheaper, but vague or misleading titles can be misclassified.
-
 
 ## How I used AI
 
-**In the product:** OpenAI generates the discussion summaries and topic tags. The tags use structured output, so the model can only return values from a fixed list.
+**In the product:** OpenAI generates the discussion summaries and topic tags. The tagging feature uses structured output, and the model only returns values from a fixed list.
 
-**To build it:** I built this with an AI coding assistant, but drove the design and architecture.  I used the assistant to challenge my assumptions, and had it flag what I hadn't considered. It proposed options and I made the final decision.  Throughout the process, we used TDD where it implemented each feature test-first: a failing test, followed by the code to make it pass.
-
+**To build it:** I built this with an AI coding assistant, but drove the design and architecture. I used the assistant to challenge my assumptions, and had it flag what I hadn't considered. It proposed options and I made the final decision. Throughout the process, we used TDD, where it implemented each feature by first writing a failing test, followed by the code to make it pass.
 
 ## What I'd do with more time
 
