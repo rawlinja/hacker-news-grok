@@ -11,6 +11,7 @@ export interface Case {
   type: string;
   expectedTags: Tag[];
   note?: string;
+  excerpt?: string; // frozen page text, populated by `pnpm eval:snapshot`
 }
 
 export interface TagMetrics {

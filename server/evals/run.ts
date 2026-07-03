@@ -1,55 +1,38 @@
 import { config } from 'dotenv';
-import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { tagStories } from '../src/lib/llm/tagging';
-import type { Story } from '../src/types';
+import { tagStories, type ExcerptFetcher } from '../src/lib/llm/tagging';
 import type { Case, RunReport, Thresholds } from './schema';
+import { caseToStory, loadCases } from './dataset';
 import { grade } from './graders/multilabel';
 import { nextRunId, printReport, writeReport } from './report';
 
 config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
-// Baselined 2026-07-03 against the 42-case adjudicated dataset on gpt-4o-mini.
-// Observed run-to-run band: macroF1 ~0.44-0.50, exact ~0.31-0.36 (variance comes
-// from live URL fetching + temp-0 jitter). Floor set below that band; raise once
-// excerpts are snapshotted (removes fetch variance) and recall improves.
 const THRESHOLDS: Thresholds = { macroF1: 0.4, exactMatchRate: 0.25 };
 
 interface CliOptions {
   trials: number;
   storyId?: number;
   jsonOnly: boolean;
+  live: boolean;
 }
 
 function parseOptions(argv: string[]): CliOptions {
-  const options: CliOptions = { trials: 1, jsonOnly: false };
+  const options: CliOptions = { trials: 1, jsonOnly: false, live: false };
 
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--trials') options.trials = Number(argv[++i]);
     else if (argv[i] === '--id') options.storyId = Number(argv[++i]);
     else if (argv[i] === '--json-only') options.jsonOnly = true;
+    else if (argv[i] === '--live') options.live = true;
   }
 
   return options;
 }
 
-function loadCases(): Case[] {
-  const path = fileURLToPath(new URL('./dataset/tags.json', import.meta.url));
-  return JSON.parse(readFileSync(path, 'utf8')) as Case[];
-}
-
-function caseToStory(testCase: Case): Story {
-  return {
-    id: testCase.id,
-    title: testCase.title,
-    url: testCase.url,
-    type: testCase.type,
-    by: '',
-    score: 0,
-    time: 0,
-    descendants: 0,
-    tags: [],
-  };
+function frozenExcerpts(cases: Case[]): ExcerptFetcher {
+  const byUrl = new Map(cases.filter((c) => c.url).map((c) => [c.url as string, c.excerpt ?? '']));
+  return async (url?: string) => (url ? (byUrl.get(url) ?? '') : '');
 }
 
 function consistencyAcross(runs: Map<number, string[]>[]): number {
@@ -73,9 +56,11 @@ async function main(): Promise<void> {
   if (cases.length === 0) throw new Error('No cases to run (check --id).');
 
   const stories = cases.map(caseToStory);
+  const fetchExcerpt = options.live ? undefined : frozenExcerpts(cases);
+
   const runs: Map<number, string[]>[] = [];
   for (let trial = 0; trial < options.trials; trial += 1) {
-    runs.push(await tagStories(stories));
+    runs.push(await tagStories(stories, fetchExcerpt));
   }
 
   const predictions = runs[0];
