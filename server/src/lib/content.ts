@@ -1,3 +1,4 @@
+import { extract } from '@extractus/article-extractor';
 import { stripHtml } from './hn';
 
 const MAX_EXCERPT_CHARS = 1200;
@@ -10,25 +11,20 @@ interface ExcerptCacheEntry {
 }
 const excerptCache = new Map<string, ExcerptCacheEntry>();
 
-function firstMatch(html: string, pattern: RegExp): string {
-  const match = html.match(pattern);
-  return match ? stripHtml(match[1]).trim() : '';
+interface Article {
+  title?: string;
+  description?: string;
+  content?: string;
 }
 
-export function extractReadableText(html: string): string {
-  const withoutNoise = html
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<!--[\s\S]*?-->/g, ' ');
+export function toExcerpt(article: Article | null): string {
+  if (!article) return '';
 
-  const title = firstMatch(withoutNoise, /<title[^>]*>([\s\S]*?)<\/title>/i);
-  const description =
-    firstMatch(html, /<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i) ||
-    firstMatch(html, /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']*)["']/i);
-
-  const body = stripHtml(withoutNoise).replace(/\s+/g, ' ').trim();
-
-  return [title, description, body].filter(Boolean).join('\n').slice(0, MAX_EXCERPT_CHARS);
+  return [article.title, article.description, article.content && stripHtml(article.content)]
+    .filter(Boolean)
+    .map((part) => (part as string).replace(/\s+/g, ' ').trim())
+    .join('\n')
+    .slice(0, MAX_EXCERPT_CHARS);
 }
 
 export async function fetchUrlExcerpt(url?: string): Promise<string> {
@@ -41,18 +37,8 @@ export async function fetchUrlExcerpt(url?: string): Promise<string> {
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: { 'user-agent': 'hn-grok-tagger/1.0' },
-    });
-
-    const contentType = response.headers.get('content-type') ?? '';
-    if (!response.ok || !contentType.includes('text/html')) {
-      excerptCache.set(url, { text: '', expiresAt: Date.now() + EXCERPT_TTL_MS });
-      return '';
-    }
-
-    const text = extractReadableText(await response.text());
+    const article = (await extract(url, {}, { signal: controller.signal })) as Article | null;
+    const text = toExcerpt(article);
     excerptCache.set(url, { text, expiresAt: Date.now() + EXCERPT_TTL_MS });
     return text;
   } catch {
