@@ -12,9 +12,7 @@ const comment = (id: number, by: string, text: string, replies: Comment[] = []):
 
 describe('buildTranscript', () => {
   it('flattens nested comments with authors and indentation', () => {
-    const { transcript } = buildTranscript([
-      comment(1, 'alice', 'hi', [comment(2, 'bob', 'yo')]),
-    ]);
+    const { transcript } = buildTranscript([comment(1, 'alice', 'hi', [comment(2, 'bob', 'yo')])]);
     expect(transcript).toContain('alice: hi');
     expect(transcript).toContain('  bob: yo');
   });

@@ -26,7 +26,10 @@ export function buildTranscript(comments: Comment[]): TranscriptResult {
   return { transcript: lines.join('\n'), commentsUsed: lines.length };
 }
 
-export async function summarizeDiscussion(story: Story, comments: Comment[]): Promise<StorySummary> {
+export async function summarizeDiscussion(
+  story: Story,
+  comments: Comment[],
+): Promise<StorySummary> {
   const { transcript, commentsUsed } = buildTranscript(comments);
   if (commentsUsed === 0) {
     return { summary: 'No comments to summarize yet.', commentsUsed: 0 };

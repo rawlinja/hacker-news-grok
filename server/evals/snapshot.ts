@@ -10,7 +10,10 @@ async function main(): Promise<void> {
   const cases = loadCases();
   const excerpts = await collectExcerpts(cases.map(caseToStory));
 
-  const snapshotted = cases.map((testCase) => ({ ...testCase, excerpt: excerpts.get(testCase.id) ?? '' }));
+  const snapshotted = cases.map((testCase) => ({
+    ...testCase,
+    excerpt: excerpts.get(testCase.id) ?? '',
+  }));
   writeFileSync(DATASET_PATH, `${JSON.stringify(snapshotted, null, 2)}\n`);
 
   const withContent = snapshotted.filter((testCase) => testCase.excerpt).length;

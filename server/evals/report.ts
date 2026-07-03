@@ -25,21 +25,23 @@ export function nextRunId(timestamp: string): string {
 
 export function printReport(report: RunReport): void {
   const printMetricsRow = (metrics: TagMetrics) =>
-    console.log(formatRow([
-      String(metrics.tag),
-      String(metrics.truePositives),
-      String(metrics.falsePositives),
-      String(metrics.falseNegatives),
-      percent(metrics.precision),
-      percent(metrics.recall),
-      percent(metrics.f1),
-    ]));
+    console.log(
+      formatRow([
+        String(metrics.tag),
+        String(metrics.truePositives),
+        String(metrics.falsePositives),
+        String(metrics.falseNegatives),
+        percent(metrics.precision),
+        percent(metrics.recall),
+        percent(metrics.f1),
+      ]),
+    );
 
   const header = formatRow(['tag', 'tp', 'fp', 'fn', 'prec', 'recall', 'f1']);
 
   console.log(
     `\nTagging eval — ${report.runId}  ` +
-    `(model: ${report.model}, ${report.totalCases} cases, ${report.trials} trial(s))`,
+      `(model: ${report.model}, ${report.totalCases} cases, ${report.trials} trial(s))`,
   );
   console.log(header);
   console.log('-'.repeat(header.length));
@@ -60,7 +62,9 @@ export function printReport(report: RunReport): void {
 
     for (const diff of report.diffs) {
       console.log(`  #${diff.id} ${diff.title}`);
-      console.log(`    expected: [${diff.expected.join(', ')}]  got: [${diff.predicted.join(', ')}]`);
+      console.log(
+        `    expected: [${diff.expected.join(', ')}]  got: [${diff.predicted.join(', ')}]`,
+      );
       if (diff.missing.length > 0) console.log(`    missing:  ${diff.missing.join(', ')}`);
       if (diff.extra.length > 0) console.log(`    extra:    ${diff.extra.join(', ')}`);
     }
@@ -68,7 +72,7 @@ export function printReport(report: RunReport): void {
 
   console.log(
     `\nThresholds: macroF1 ≥ ${percent(report.thresholds.macroF1)}, ` +
-    `exact-match ≥ ${percent(report.thresholds.exactMatchRate)}`,
+      `exact-match ≥ ${percent(report.thresholds.exactMatchRate)}`,
   );
   console.log(report.passed ? '✅ PASS' : '❌ FAIL');
 }
@@ -90,9 +94,12 @@ export function printComparison(entries: ComparisonEntry[]): void {
   for (const entry of entries) {
     console.log(
       entry.model.padEnd(modelWidth) +
-        '   ' + percent(entry.macroF1).padStart(6) +
-        '   ' + percent(entry.microF1).padStart(6) +
-        '   ' + percent(entry.exactMatchRate).padStart(6),
+        '   ' +
+        percent(entry.macroF1).padStart(6) +
+        '   ' +
+        percent(entry.microF1).padStart(6) +
+        '   ' +
+        percent(entry.exactMatchRate).padStart(6),
     );
   }
 
@@ -106,10 +113,14 @@ export function printComparison(entries: ComparisonEntry[]): void {
     );
 
   console.log('\nPer-tag F1:');
-  console.log('tag'.padEnd(28) + entries.map((entry) => entry.model.padStart(modelWidth + 2)).join(''));
+  console.log(
+    'tag'.padEnd(28) + entries.map((entry) => entry.model.padStart(modelWidth + 2)).join(''),
+  );
   for (const index of supported) {
     const label = String(entries[0].perTag[index].tag).padEnd(28);
-    const cells = entries.map((entry) => percent(entry.perTag[index].f1).padStart(modelWidth + 2)).join('');
+    const cells = entries
+      .map((entry) => percent(entry.perTag[index].f1).padStart(modelWidth + 2))
+      .join('');
     console.log(label + cells);
   }
 }
