@@ -1,14 +1,28 @@
-import type { Story } from '../types'
-
-export type Tag = 'ai_ml' | 'technical_deep_dive' | 'science_research' | 'paper'
-
-export const TAG_ORDER: Tag[] = ['ai_ml', 'technical_deep_dive', 'science_research', 'paper']
+import { TAGS, type Story, type Tag } from '../types'
 
 export const TAG_LABELS: Record<Tag, string> = {
-  ai_ml: 'AI/ML',
   technical_deep_dive: 'Technical Deep Dive',
+  new_tool_or_library: 'New Tool/Library',
+  company_or_startup_news: 'Company/Startup News',
+  ai_ml: 'AI/ML',
+  security_privacy: 'Security/Privacy',
   science_research: 'Science/Research',
+  policy_regulation_law: 'Policy/Regulation/Law',
+  career_work_culture: 'Career/Work Culture',
+  opinion_analysis: 'Opinion/Analysis',
+  show_hn_launch: 'Show HN/Launch',
+  historical_or_retrospective: 'Historical/Retrospective',
+  other: 'Other',
+  announcement: 'Announcement',
+  tutorial: 'Tutorial',
+  reference: 'Reference',
+  benchmark: 'Benchmark',
+  postmortem: 'Postmortem',
   paper: 'Paper',
+  discussion_prompt: 'Discussion Prompt',
+  personal_story: 'Personal Story',
+  investigation: 'Investigation',
+  demo_project: 'Demo Project',
 }
 
 const isKnownTag = (value: string): value is Tag => value in TAG_LABELS
@@ -29,7 +43,7 @@ export function deriveTagFacets(stories: Story[]): TagFacet[] {
   return [...countByTag.entries()]
     .map(([tag, count]) => ({ tag, label: TAG_LABELS[tag], count }))
     .sort((first, second) =>
-      second.count - first.count || TAG_ORDER.indexOf(first.tag) - TAG_ORDER.indexOf(second.tag),
+      second.count - first.count || TAGS.indexOf(first.tag) - TAGS.indexOf(second.tag),
     )
 }
 

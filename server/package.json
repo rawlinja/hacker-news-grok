@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "eval:tags": "tsx evals/run.ts",
+    "eval:snapshot": "tsx evals/snapshot.ts"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@extractus/article-extractor": "^8.1.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

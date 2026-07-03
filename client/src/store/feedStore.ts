@@ -1,8 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { getFeed } from '../api'
-import type { Feed, Story } from '../types'
-import type { Tag } from '../lib/tags'
+import type { Feed, Story, Tag } from '../types'
 
 interface FeedStore {
   feed: Feed

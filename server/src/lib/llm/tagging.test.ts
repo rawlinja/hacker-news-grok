@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { buildTagInput, parseTagResults, attachTags } from './tagging';
+import { buildTagInput, collectExcerpts, parseTagResults, attachTags } from './tagging';
 import type { Story } from '../../types';
 
 const story = (over: Partial<Story>): Story => ({
@@ -7,9 +7,25 @@ const story = (over: Partial<Story>): Story => ({
 });
 
 describe('buildTagInput', () => {
-  it('projects id, title, url, type', () => {
-    expect(buildTagInput([story({ id: 7, title: 'X', url: 'https://e.com', type: 'story' })]))
-      .toEqual([{ id: 7, title: 'X', url: 'https://e.com', type: 'story' }]);
+  it('projects id, title, url, type, and excerpt', () => {
+    const excerpts = new Map([[7, 'page text']]);
+    expect(buildTagInput([story({ id: 7, title: 'X', url: 'https://e.com', type: 'story' })], excerpts))
+      .toEqual([{ id: 7, title: 'X', url: 'https://e.com', type: 'story', excerpt: 'page text' }]);
+  });
+});
+
+describe('collectExcerpts', () => {
+  it('uses the story text for text posts and the fetcher for linked stories', async () => {
+    const fetchExcerpt = vi.fn(async (url?: string) => `fetched:${url}`);
+
+    const excerpts = await collectExcerpts(
+      [story({ id: 1, text: '<p>hello</p>' }), story({ id: 2, url: 'https://e.com' })],
+      fetchExcerpt,
+    );
+
+    expect(excerpts.get(1)).toBe('hello');
+    expect(excerpts.get(2)).toBe('fetched:https://e.com');
+    expect(fetchExcerpt).toHaveBeenCalledTimes(1);
   });
 });
 
