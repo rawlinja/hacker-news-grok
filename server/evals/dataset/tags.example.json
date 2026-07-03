@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Example: a systems engineering deep dive",
+    "url": "https://example.com/deep-dive",
+    "type": "story",
+    "expectedTags": ["technical_deep_dive"],
+    "note": "illustrative case — replace with real HN stories",
+    "excerpt": "A 1-2 paragraph excerpt of the linked page. Frozen by `pnpm eval:snapshot` so runs are deterministic and each label is auditable offline."
+  },
+  {
+    "id": 2,
+    "title": "Example: an open-weight LLM research paper",
+    "url": "https://arxiv.org/abs/0000.00000",
+    "type": "story",
+    "expectedTags": ["ai_ml", "paper", "science_research"],
+    "note": "illustrative multi-tag case",
+    "excerpt": "Abstract-style text describing the paper and its results."
+  },
+  {
+    "id": 3,
+    "title": "Show HN: Example developer tool",
+    "url": "https://example.com/tool",
+    "type": "story",
+    "expectedTags": ["show_hn_launch", "new_tool_or_library"],
+    "note": "illustrative Show HN launch",
+    "excerpt": "A developer tool you can try, with install instructions."
+  }
+]
