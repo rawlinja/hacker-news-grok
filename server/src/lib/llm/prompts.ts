@@ -31,8 +31,9 @@ export const TAG_VOCAB = [
 ] as const;
 
 export const TAGGING_PROMPT = `You label Hacker News stories with topic tags so a reader can filter for areas of interest.
-You receive a batch of stories (id, title, url, type). For each story, assign every tag from the controlled
-vocabulary that clearly applies, judging from the title (url/type are hints). Rules:
+You receive a batch of stories (id, title, url, type, excerpt). For each story, assign every tag from the controlled
+vocabulary that clearly applies, judging from the title and the excerpt of the linked page (url/type are hints;
+excerpt may be empty, in which case rely on the title). Rules:
 - Use ONLY tags from the vocabulary. Never invent tags.
 - Assign every tag that clearly applies (usually 1-4); prefer precision over guessing.
 - Use "other" only when nothing else fits. If nothing clearly applies, return an empty list.
