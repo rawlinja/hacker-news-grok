@@ -7,7 +7,8 @@
   border-radius: 10px;
 }
 
-.tab, .activeTab {
+.tab,
+.activeTab {
   flex: 1;
   min-height: var(--tap);
   display: flex;
@@ -27,7 +28,9 @@
   font-weight: 600;
 }
 
-.tab:active { background: rgba(0, 0, 0, 0.04); }
+.tab:active {
+  background: rgba(0, 0, 0, 0.04);
+}
 
 .loadMore {
   display: block;
@@ -42,4 +45,6 @@
   font-size: 0.95rem;
 }
 
-.loadMore:active { background: var(--border); }
+.loadMore:active {
+  background: var(--border);
+}

@@ -12,7 +12,9 @@ export default function StoryCard({ story }: { story: Story }) {
     <article className={styles.card}>
       <h2 className={styles.title}>
         {story.url ? (
-          <a href={story.url} target="_blank" rel="noreferrer">{story.title}</a>
+          <a href={story.url} target="_blank" rel="noreferrer">
+            {story.title}
+          </a>
         ) : (
           <Link to={detailPath}>{story.title}</Link>
         )}
@@ -22,12 +24,16 @@ export default function StoryCard({ story }: { story: Story }) {
         <span>{story.score} points</span>
         <span>by {story.by}</span>
         <span>{relativeAge(story.time)}</span>
-        <Link to={detailPath} className={styles.comments}>{story.descendants} comments</Link>
+        <Link to={detailPath} className={styles.comments}>
+          {story.descendants} comments
+        </Link>
       </div>
       {story.tags.length > 0 && (
         <div className={styles.tags}>
           {story.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>{TAG_LABELS[tag as Tag] ?? tag}</span>
+            <span key={tag} className={styles.tag}>
+              {TAG_LABELS[tag as Tag] ?? tag}
+            </span>
           ))}
         </div>
       )}

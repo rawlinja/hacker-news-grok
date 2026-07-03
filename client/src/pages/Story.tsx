@@ -36,7 +36,9 @@ export default function Story() {
 
   return (
     <div>
-      <Link to="/" className={styles.back}>← Back</Link>
+      <Link to="/" className={styles.back}>
+        ← Back
+      </Link>
       <h1 className={styles.title}>{story.title}</h1>
       <div className={styles.meta}>
         <span>{story.score} points</span>
@@ -46,8 +48,14 @@ export default function Story() {
       </div>
 
       <div className={styles.links}>
-        {story.url && <a href={story.url} target="_blank" rel="noreferrer">Read article ↗{domain && ` (${domain})`}</a>}
-        <a href={hnDiscussUrl(story.id)} target="_blank" rel="noreferrer">Discuss on HN ↗</a>
+        {story.url && (
+          <a href={story.url} target="_blank" rel="noreferrer">
+            Read article ↗{domain && ` (${domain})`}
+          </a>
+        )}
+        <a href={hnDiscussUrl(story.id)} target="_blank" rel="noreferrer">
+          Discuss on HN ↗
+        </a>
       </div>
 
       {!story.url && story.text && (
@@ -57,9 +65,11 @@ export default function Story() {
       <Summary storyId={story.id} />
 
       <h2 className={styles.commentsHeading}>Comments</h2>
-      {comments.length > 0
-        ? <CommentList comments={comments} />
-        : <StatusMessage>No comments yet.</StatusMessage>}
+      {comments.length > 0 ? (
+        <CommentList comments={comments} />
+      ) : (
+        <StatusMessage>No comments yet.</StatusMessage>
+      )}
     </div>
   )
 }

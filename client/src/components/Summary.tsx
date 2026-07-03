@@ -27,13 +27,17 @@ export default function Summary({ storyId }: { storyId: number }) {
       <h2 className={styles.heading}>🤖 AI discussion summary</h2>
 
       {state.phase === 'idle' && (
-        <button type="button" className={styles.action} onClick={generate}>Summarize discussion</button>
+        <button type="button" className={styles.action} onClick={generate}>
+          Summarize discussion
+        </button>
       )}
       {state.phase === 'loading' && <p className={styles.muted}>Summarizing the discussion…</p>}
       {state.phase === 'error' && (
         <div>
           <p className={styles.muted}>Couldn’t generate a summary.</p>
-          <button type="button" className={styles.action} onClick={generate}>Try again</button>
+          <button type="button" className={styles.action} onClick={generate}>
+            Try again
+          </button>
         </div>
       )}
       {state.phase === 'done' && (
@@ -41,7 +45,9 @@ export default function Summary({ storyId }: { storyId: number }) {
           <p className={styles.summary}>{state.data.summary}</p>
           <div className={styles.footer}>
             <span className={styles.muted}>Based on {state.data.commentsUsed} comments</span>
-            <button type="button" className={styles.regen} onClick={generate}>Regenerate</button>
+            <button type="button" className={styles.regen} onClick={generate}>
+              Regenerate
+            </button>
           </div>
         </div>
       )}

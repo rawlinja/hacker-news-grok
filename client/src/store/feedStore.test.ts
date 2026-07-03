@@ -4,13 +4,25 @@ import * as api from '../api'
 import type { Story } from '../types'
 
 const makeStory = (id: number, tags: string[] = []): Story => ({
-  id, title: `S${id}`, by: 'a', score: 0, time: 0, descendants: 0, type: 'story', tags,
+  id,
+  title: `S${id}`,
+  by: 'a',
+  score: 0,
+  time: 0,
+  descendants: 0,
+  type: 'story',
+  tags,
 })
 
 beforeEach(() => {
   sessionStorage.clear()
   useFeedStore.setState({
-    feed: 'top', page: 0, loadedStories: [], loading: false, error: false, selectedTags: [],
+    feed: 'top',
+    page: 0,
+    loadedStories: [],
+    loading: false,
+    error: false,
+    selectedTags: [],
   })
 })
 afterEach(() => vi.restoreAllMocks())
@@ -24,7 +36,9 @@ test('ensureLoaded fetches page 0 once then no-ops', async () => {
 })
 
 test('loadMore appends the next page and bumps page', async () => {
-  vi.spyOn(api, 'getFeed').mockResolvedValueOnce([makeStory(1)]).mockResolvedValueOnce([makeStory(2)])
+  vi.spyOn(api, 'getFeed')
+    .mockResolvedValueOnce([makeStory(1)])
+    .mockResolvedValueOnce([makeStory(2)])
   await useFeedStore.getState().ensureLoaded()
   await useFeedStore.getState().loadMore()
   expect(useFeedStore.getState().loadedStories.map((story) => story.id)).toEqual([1, 2])

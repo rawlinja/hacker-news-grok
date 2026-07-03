@@ -1,4 +1,8 @@
-.status { text-align: center; color: var(--muted); padding: 32px 0; }
+.status {
+  text-align: center;
+  color: var(--muted);
+  padding: 32px 0;
+}
 
 .status button {
   margin-top: 8px;
@@ -10,4 +14,6 @@
   cursor: pointer;
 }
 
-.status button:active { background: var(--border); }
+.status button:active {
+  background: var(--border);
+}
