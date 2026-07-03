@@ -1,10 +1,11 @@
 import { config } from 'dotenv';
 import { fileURLToPath } from 'node:url';
 import { tagStories, type ExcerptFetcher } from '../src/lib/llm/tagging';
+import type { Story } from '../src/types';
 import type { Case, RunReport, Thresholds } from './schema';
 import { caseToStory, loadCases } from './dataset';
 import { grade } from './graders/multilabel';
-import { nextRunId, printReport, writeReport } from './report';
+import { type ComparisonEntry, nextRunId, printComparison, printReport, writeReport } from './report';
 
 config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
@@ -15,6 +16,8 @@ interface CliOptions {
   storyId?: number;
   jsonOnly: boolean;
   live: boolean;
+  model?: string;
+  compare?: string[];
 }
 
 function parseOptions(argv: string[]): CliOptions {
@@ -25,6 +28,10 @@ function parseOptions(argv: string[]): CliOptions {
     else if (argv[i] === '--id') options.storyId = Number(argv[++i]);
     else if (argv[i] === '--json-only') options.jsonOnly = true;
     else if (argv[i] === '--live') options.live = true;
+    else if (argv[i] === '--model') options.model = argv[++i];
+    else if (argv[i] === '--compare') {
+      options.compare = argv[++i]?.split(',').map((model) => model.trim()).filter(Boolean);
+    }
   }
 
   return options;
@@ -47,6 +54,37 @@ function consistencyAcross(runs: Map<number, string[]>[]): number {
   return stable.length / storyIds.length;
 }
 
+type Scored = ReturnType<typeof grade>;
+
+const mean = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
+
+async function scoreModel(
+  model: string,
+  stories: Story[],
+  cases: Case[],
+  fetchExcerpt: ExcerptFetcher | undefined,
+  trials: number,
+): Promise<ComparisonEntry> {
+  process.env.OPENAI_MODEL = model;
+
+  const scores: Scored[] = [];
+  for (let trial = 0; trial < trials; trial += 1) {
+    scores.push(grade(cases, await tagStories(stories, fetchExcerpt)));
+  }
+
+  return {
+    model,
+    trials,
+    microF1: mean(scores.map((score) => score.microF1)),
+    macroF1: mean(scores.map((score) => score.macroF1)),
+    exactMatchRate: mean(scores.map((score) => score.exactMatchRate)),
+    perTag: scores[0].perTag.map((metrics, index) => ({
+      ...metrics,
+      f1: mean(scores.map((score) => score.perTag[index].f1)),
+    })),
+  };
+}
+
 async function main(): Promise<void> {
   const options = parseOptions(process.argv.slice(2));
   const cases = loadCases().filter(
@@ -57,6 +95,17 @@ async function main(): Promise<void> {
 
   const stories = cases.map(caseToStory);
   const fetchExcerpt = options.live ? undefined : frozenExcerpts(cases);
+
+  if (options.compare) {
+    const entries: ComparisonEntry[] = [];
+    for (const model of options.compare) {
+      entries.push(await scoreModel(model, stories, cases, fetchExcerpt, options.trials));
+    }
+    printComparison(entries);
+    return;
+  }
+
+  if (options.model) process.env.OPENAI_MODEL = options.model;
 
   const runs: Map<number, string[]>[] = [];
   for (let trial = 0; trial < options.trials; trial += 1) {
