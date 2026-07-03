@@ -1,53 +1,4 @@
-import type { Story } from '../types'
-
-export type Tag =
-  | 'technical_deep_dive'
-  | 'new_tool_or_library'
-  | 'company_or_startup_news'
-  | 'ai_ml'
-  | 'security_privacy'
-  | 'science_research'
-  | 'policy_regulation_law'
-  | 'career_work_culture'
-  | 'opinion_analysis'
-  | 'show_hn_launch'
-  | 'historical_or_retrospective'
-  | 'other'
-  | 'announcement'
-  | 'tutorial'
-  | 'reference'
-  | 'benchmark'
-  | 'postmortem'
-  | 'paper'
-  | 'discussion_prompt'
-  | 'personal_story'
-  | 'investigation'
-  | 'demo_project'
-
-export const TAG_ORDER: Tag[] = [
-  'technical_deep_dive',
-  'new_tool_or_library',
-  'company_or_startup_news',
-  'ai_ml',
-  'security_privacy',
-  'science_research',
-  'policy_regulation_law',
-  'career_work_culture',
-  'opinion_analysis',
-  'show_hn_launch',
-  'historical_or_retrospective',
-  'other',
-  'announcement',
-  'tutorial',
-  'reference',
-  'benchmark',
-  'postmortem',
-  'paper',
-  'discussion_prompt',
-  'personal_story',
-  'investigation',
-  'demo_project',
-]
+import { TAGS, type Story, type Tag } from '../types'
 
 export const TAG_LABELS: Record<Tag, string> = {
   technical_deep_dive: 'Technical Deep Dive',
@@ -92,7 +43,7 @@ export function deriveTagFacets(stories: Story[]): TagFacet[] {
   return [...countByTag.entries()]
     .map(([tag, count]) => ({ tag, label: TAG_LABELS[tag], count }))
     .sort((first, second) =>
-      second.count - first.count || TAG_ORDER.indexOf(first.tag) - TAG_ORDER.indexOf(second.tag),
+      second.count - first.count || TAGS.indexOf(first.tag) - TAGS.indexOf(second.tag),
     )
 }
 

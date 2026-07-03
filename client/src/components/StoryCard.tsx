@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import type { Story } from '../types'
+import type { Story, Tag } from '../types'
 import { domainOf, relativeAge } from '../lib/format'
-import { TAG_LABELS, type Tag } from '../lib/tags'
+import { TAG_LABELS } from '../lib/tags'
 import styles from './StoryCard.module.css'
 
 export default function StoryCard({ story }: { story: Story }) {

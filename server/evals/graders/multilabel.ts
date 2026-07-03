@@ -1,4 +1,4 @@
-import { TAG_VOCAB } from '../../src/lib/llm/prompts';
+import { TAGS } from '../../src/types';
 import type { Case, CaseDiff, MetricScope, RunReport, TagMetrics } from '../schema';
 
 function ratio(numerator: number, denominator: number): number {
@@ -24,7 +24,7 @@ type Scored = Pick<
 >;
 
 export function grade(cases: Case[], predictions: Map<number, string[]>): Scored {
-  const perTag = TAG_VOCAB.map((tag) => {
+  const perTag = TAGS.map((tag) => {
     let truePositives = 0;
     let falsePositives = 0;
     let falseNegatives = 0;

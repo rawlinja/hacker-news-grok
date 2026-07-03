@@ -1,6 +1,4 @@
-import { TAG_VOCAB } from '../src/lib/llm/prompts';
-
-export type Tag = (typeof TAG_VOCAB)[number];
+import type { Tag } from '../src/types';
 
 export type MetricScope = Tag | 'micro' | 'macro';
 

@@ -1,10 +1,10 @@
-import type { Story } from '../../types';
+import { TAGS, type Story, type Tag } from '../../types';
 import { stripHtml } from '../hn';
 import { fetchUrlExcerpt } from '../content';
 import { getClient } from './client';
-import { TAG_VOCAB, TAGGING_PROMPT } from './prompts';
+import { TAGGING_PROMPT } from './prompts';
 
-const ALLOWED_TAGS = new Set<string>(TAG_VOCAB);
+const ALLOWED_TAGS = new Set<string>(TAGS);
 const MAX_TEXT_EXCERPT_CHARS = 1200;
 
 export type ExcerptFetcher = (url?: string) => Promise<string>;
@@ -73,7 +73,7 @@ export async function tagStories(
                   required: ['id', 'tags'],
                   properties: {
                     id: { type: 'number' },
-                    tags: { type: 'array', items: { type: 'string', enum: [...TAG_VOCAB] } },
+                    tags: { type: 'array', items: { type: 'string', enum: [...TAGS] } },
                   },
                 },
               },
@@ -102,5 +102,5 @@ export async function attachTags(
       tagCache.set(story.id, freshTags.get(story.id) ?? []);
     }
   }
-  return stories.map((story) => ({ ...story, tags: tagCache.get(story.id) ?? [] }));
+  return stories.map((story) => ({ ...story, tags: (tagCache.get(story.id) ?? []) as Tag[] }));
 }

@@ -5,31 +5,6 @@ Given a story title and its comments, write:
 - 3-5 short bullets covering the main points, the strongest disagreement, and any notable insight.
 Be concise and neutral. Summarize only what the comments actually say; do not invent points.`;
 
-export const TAG_VOCAB = [
-  'technical_deep_dive',
-  'new_tool_or_library',
-  'company_or_startup_news',
-  'ai_ml',
-  'security_privacy',
-  'science_research',
-  'policy_regulation_law',
-  'career_work_culture',
-  'opinion_analysis',
-  'show_hn_launch',
-  'historical_or_retrospective',
-  'other',
-  'announcement',
-  'tutorial',
-  'reference',
-  'benchmark',
-  'postmortem',
-  'paper',
-  'discussion_prompt',
-  'personal_story',
-  'investigation',
-  'demo_project',
-] as const;
-
 export const TAGGING_PROMPT = `You label Hacker News stories with topic tags so a reader can filter for areas of interest.
 You receive a batch of stories (id, title, url, type, excerpt). For each story, assign every tag from the controlled
 vocabulary that clearly applies, judging from the title and the excerpt of the linked page (url/type are hints;

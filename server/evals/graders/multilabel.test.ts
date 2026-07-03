@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { grade } from './multilabel';
-import { TAG_VOCAB } from '../../src/lib/llm/prompts';
+import { TAGS } from '../../src/types';
 import type { Case } from '../schema';
 
 const buildCase = (id: number, expectedTags: Case['expectedTags']): Case => ({
@@ -59,7 +59,7 @@ describe('grade', () => {
     const result = grade(cases, predictions);
 
     expect(result.macroF1).toBe(1);
-    expect(result.perTag).toHaveLength(TAG_VOCAB.length);
+    expect(result.perTag).toHaveLength(TAGS.length);
   });
 
   it('ignores tags outside the vocab in per-tag counts', () => {
