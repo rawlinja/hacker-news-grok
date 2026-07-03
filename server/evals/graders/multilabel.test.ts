@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { grade } from './multilabel';
-import { TAGS } from '../../src/types';
-import type { Case } from '../schema';
+import { grade } from './multilabel.js';
+import { TAGS } from '../../src/types.js';
+import type { Case } from '../schema.js';
 
 const buildCase = (id: number, expectedTags: Case['expectedTags']): Case => ({
   id,

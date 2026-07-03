@@ -1,6 +1,27 @@
-.list { list-style: none; margin: 0; padding: 0; }
-.list .list { margin-left: 10px; border-left: 2px solid var(--border); padding-left: 10px; }
-.comment { padding: 10px 0; }
-.meta { display: flex; gap: 10px; color: var(--muted); font-size: 0.78rem; }
-.author { font-weight: 600; }
-.text { margin: 4px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list .list {
+  margin-left: 10px;
+  border-left: 2px solid var(--border);
+  padding-left: 10px;
+}
+.comment {
+  padding: 10px 0;
+}
+.meta {
+  display: flex;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.author {
+  font-weight: 600;
+}
+.text {
+  margin: 4px 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

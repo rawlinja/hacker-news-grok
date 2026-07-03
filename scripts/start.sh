@@ -20,7 +20,7 @@ cleanup() {
 }
 trap cleanup INT TERM EXIT
 
-(cd "$ROOT/server" && exec pnpm start) &
+(cd "$ROOT/server" && exec pnpm dev) &
 pids+=($!)
 
 (cd "$ROOT/client" && exec pnpm dev) &

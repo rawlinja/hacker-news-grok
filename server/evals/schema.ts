@@ -1,4 +1,4 @@
-import type { Tag } from '../src/types';
+import type { Tag } from '../src/types.js';
 
 export type MetricScope = Tag | 'micro' | 'macro';
 
@@ -44,10 +44,11 @@ export interface RunReport {
   totalCases: number;
   microF1: number;
   macroF1: number;
+  exactMatchRate: number;
   perTag: TagMetrics[];
   micro: TagMetrics;
   macro: TagMetrics;
-  consistency?: number;
+  consistency?: number | undefined;
   diffs: CaseDiff[];
   thresholds: Thresholds;
   passed: boolean;

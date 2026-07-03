@@ -4,18 +4,31 @@ import StoryCard from './StoryCard'
 import type { Story } from '../types'
 
 const story: Story = {
-  id: 7, title: 'A neat thing', by: 'pg', score: 123,
-  time: Math.floor(Date.now() / 1000) - 3600, descendants: 45, type: 'story',
-  url: 'https://www.example.com/post', tags: [],
+  id: 7,
+  title: 'A neat thing',
+  by: 'pg',
+  score: 123,
+  time: Math.floor(Date.now() / 1000) - 3600,
+  descendants: 45,
+  type: 'story',
+  url: 'https://www.example.com/post',
+  tags: [],
 }
 
 function renderCard(s: Story) {
-  return render(<MemoryRouter><StoryCard story={s} /></MemoryRouter>)
+  return render(
+    <MemoryRouter>
+      <StoryCard story={s} />
+    </MemoryRouter>,
+  )
 }
 
 test('renders title linking to the external url', () => {
   renderCard(story)
-  expect(screen.getByRole('link', { name: 'A neat thing' })).toHaveAttribute('href', 'https://www.example.com/post')
+  expect(screen.getByRole('link', { name: 'A neat thing' })).toHaveAttribute(
+    'href',
+    'https://www.example.com/post',
+  )
 })
 
 test('shows domain, author, score, and comment count', () => {

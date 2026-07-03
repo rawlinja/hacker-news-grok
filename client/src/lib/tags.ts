@@ -42,8 +42,9 @@ export function deriveTagFacets(stories: Story[]): TagFacet[] {
   }
   return [...countByTag.entries()]
     .map(([tag, count]) => ({ tag, label: TAG_LABELS[tag], count }))
-    .sort((first, second) =>
-      second.count - first.count || TAGS.indexOf(first.tag) - TAGS.indexOf(second.tag),
+    .sort(
+      (first, second) =>
+        second.count - first.count || TAGS.indexOf(first.tag) - TAGS.indexOf(second.tag),
     )
 }
 

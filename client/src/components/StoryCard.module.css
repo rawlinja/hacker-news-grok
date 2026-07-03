@@ -1,4 +1,7 @@
-.card { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.card {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
 
 .title {
   font-size: 1.05rem;
@@ -8,8 +11,15 @@
   overflow-wrap: anywhere;
 }
 
-.title a { text-decoration: none; }
-.domain { color: var(--muted); font-size: 0.8rem; font-weight: 400; margin-left: 6px; }
+.title a {
+  text-decoration: none;
+}
+.domain {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-left: 6px;
+}
 
 .meta {
   display: flex;
@@ -27,7 +37,12 @@
   padding: 4px 0;
 }
 
-.tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
 
 .tag {
   font-size: 0.72rem;

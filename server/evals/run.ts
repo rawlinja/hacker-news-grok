@@ -1,11 +1,17 @@
 import { config } from 'dotenv';
 import { fileURLToPath } from 'node:url';
-import { tagStories, type ExcerptFetcher } from '../src/lib/llm/tagging';
-import type { Story } from '../src/types';
-import type { Case, RunReport, Thresholds } from './schema';
-import { caseToStory, loadCases } from './dataset';
-import { grade } from './graders/multilabel';
-import { type ComparisonEntry, nextRunId, printComparison, printReport, writeReport } from './report';
+import { tagStories, type ExcerptFetcher } from '../src/lib/llm/tagging.js';
+import type { Story } from '../src/types.js';
+import type { Case, RunReport, Thresholds } from './schema.js';
+import { caseToStory, loadCases } from './dataset.js';
+import { grade } from './graders/multilabel.js';
+import {
+  type ComparisonEntry,
+  nextRunId,
+  printComparison,
+  printReport,
+  writeReport,
+} from './report.js';
 
 config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
@@ -30,7 +36,10 @@ function parseOptions(argv: string[]): CliOptions {
     else if (argv[i] === '--live') options.live = true;
     else if (argv[i] === '--model') options.model = argv[++i];
     else if (argv[i] === '--compare') {
-      options.compare = argv[++i]?.split(',').map((model) => model.trim()).filter(Boolean);
+      options.compare = argv[++i]
+        ?.split(',')
+        .map((model) => model.trim())
+        .filter(Boolean);
     }
   }
 
@@ -118,7 +127,9 @@ async function main(): Promise<void> {
   const anyExpected = cases.some((testCase) => testCase.expectedTags.length > 0);
   const anyPredicted = [...predictions.values()].some((tags) => tags.length > 0);
   if (anyExpected && !anyPredicted) {
-    console.error('All predictions empty — likely missing OPENAI_API_KEY or a model error. See server/.env.');
+    console.error(
+      'All predictions empty — likely missing OPENAI_API_KEY or a model error. See server/.env.',
+    );
     process.exit(2);
   }
 

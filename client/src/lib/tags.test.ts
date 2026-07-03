@@ -3,7 +3,14 @@ import { deriveTagFacets, filterByTags } from './tags'
 import type { Story } from '../types'
 
 const story = (id: number, tags: string[]): Story => ({
-  id, title: `S${id}`, by: 'a', score: 0, time: 0, descendants: 0, type: 'story', tags,
+  id,
+  title: `S${id}`,
+  by: 'a',
+  score: 0,
+  time: 0,
+  descendants: 0,
+  type: 'story',
+  tags,
 })
 
 test('deriveTagFacets counts present vocab tags, ordered by count then vocab, ignoring unknown', () => {

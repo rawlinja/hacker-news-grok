@@ -1,5 +1,5 @@
-import type { Feed, Story, Comment, StoryWithComments } from '../types';
-import { toStory, type FirebaseItem } from './normalize';
+import type { Feed, Story, Comment, StoryWithComments } from '../types.js';
+import { toStory, type FirebaseItem } from './normalize.js';
 
 const BASE_URL = 'https://hacker-news.firebaseio.com/v0';
 
@@ -13,7 +13,6 @@ const FEED_ENDPOINT: Record<Feed, string> = {
   best: 'beststories',
 };
 
-
 export function stripHtml(html: string): string {
   if (!html) return '';
   return html
@@ -25,7 +24,7 @@ export function stripHtml(html: string): string {
     .replace(/&quot;/g, '"')
     .replace(/&#x27;/g, "'")
     .replace(/&#x2F;/g, '/')
-    .replace(/&amp;/g, '&') 
+    .replace(/&amp;/g, '&')
     .trim();
 }
 
@@ -37,14 +36,14 @@ const responseCache = new Map<string, CacheEntry>();
 
 async function fetchJsonCached<T>(url: string, ttlMs: number): Promise<T> {
   const cached = responseCache.get(url);
-  
-  if (cached && cached.expiresAt > Date.now()) { 
+
+  if (cached && cached.expiresAt > Date.now()) {
     return cached.payload as T;
   }
 
   const response = await fetch(url);
   if (!response.ok) throw new Error(`HN fetch failed ${response.status}: ${url}`);
-  
+
   const payload = (await response.json()) as T;
 
   responseCache.set(url, { payload, expiresAt: Date.now() + ttlMs });
@@ -52,7 +51,10 @@ async function fetchJsonCached<T>(url: string, ttlMs: number): Promise<T> {
 }
 
 export async function getFeedIds(feed: Feed): Promise<number[]> {
-  const storyIds = await fetchJsonCached<number[] | null>(`${BASE_URL}/${FEED_ENDPOINT[feed]}.json`, 60_000);
+  const storyIds = await fetchJsonCached<number[] | null>(
+    `${BASE_URL}/${FEED_ENDPOINT[feed]}.json`,
+    60_000,
+  );
   return Array.isArray(storyIds) ? storyIds : [];
 }
 
@@ -64,9 +66,11 @@ export async function getStories(feed: Feed, page = 0, pageSize = PAGE_SIZE): Pr
   const allStoryIds = await getFeedIds(feed);
   const pageStoryIds = allStoryIds.slice(page * pageSize, page * pageSize + pageSize);
   const rawItems = await Promise.all(pageStoryIds.map((storyId) => getItem(storyId)));
-  
+
   return rawItems
-    .filter((rawItem): rawItem is FirebaseItem => rawItem != null && !rawItem.deleted && !rawItem.dead)
+    .filter(
+      (rawItem): rawItem is FirebaseItem => rawItem != null && !rawItem.deleted && !rawItem.dead,
+    )
     .map(toStory);
 }
 
@@ -80,7 +84,10 @@ async function hydrateComments(
 
   const liveComments = rawComments.filter(
     (rawComment): rawComment is FirebaseItem =>
-      rawComment != null && !rawComment.deleted && !rawComment.dead && rawComment.type === 'comment',
+      rawComment != null &&
+      !rawComment.deleted &&
+      !rawComment.dead &&
+      rawComment.type === 'comment',
   );
 
   return Promise.all(
@@ -94,18 +101,16 @@ async function hydrateComments(
   );
 }
 
-export async function getStoryWithComments(
-  storyId: number,
-): Promise<StoryWithComments> {
+export async function getStoryWithComments(storyId: number): Promise<StoryWithComments> {
   const rawStory = await getItem(storyId);
   if (!rawStory) throw new Error(`Story ${storyId} not found`);
 
   const story = toStory(rawStory);
-  
+
   const topLevelCommentIds = Array.isArray(rawStory.kids)
     ? rawStory.kids.slice(0, MAX_TOP_LEVEL_COMMENTS)
     : [];
-  
+
   const comments = await hydrateComments(topLevelCommentIds, MAX_COMMENT_DEPTH);
   return { story, comments };
 }

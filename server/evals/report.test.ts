@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { nextRunId } from './report';
+import { nextRunId } from './report.js';
 
 describe('nextRunId', () => {
   it('produces a per-day sequenced id of the shape run_YYYY-MM-DD_NN', () => {

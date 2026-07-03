@@ -1,5 +1,5 @@
-import { TAGS } from '../../src/types';
-import type { Case, CaseDiff, MetricScope, RunReport, TagMetrics } from '../schema';
+import { TAGS } from '../../src/types.js';
+import type { Case, CaseDiff, MetricScope, RunReport, TagMetrics } from '../schema.js';
 
 function ratio(numerator: number, denominator: number): number {
   return denominator === 0 ? 0 : numerator / denominator;
@@ -53,18 +53,25 @@ export function grade(cases: Case[], predictions: Map<number, string[]>): Scored
 
   // Average only over tags the dataset actually exercises, so absent tags don't
   // drag the score down and a perfect run stays 1.0 on any subset.
-  const supported = perTag.filter(
-    (m) => m.truePositives + m.falsePositives + m.falseNegatives > 0,
-  );
+  const supported = perTag.filter((m) => m.truePositives + m.falsePositives + m.falseNegatives > 0);
 
   const macro: TagMetrics = {
     tag: 'macro',
     truePositives: micro.truePositives,
     falsePositives: micro.falsePositives,
     falseNegatives: micro.falseNegatives,
-    precision: ratio(sumOf(supported, (m) => m.precision), supported.length),
-    recall: ratio(sumOf(supported, (m) => m.recall), supported.length),
-    f1: ratio(sumOf(supported, (m) => m.f1), supported.length),
+    precision: ratio(
+      sumOf(supported, (m) => m.precision),
+      supported.length,
+    ),
+    recall: ratio(
+      sumOf(supported, (m) => m.recall),
+      supported.length,
+    ),
+    f1: ratio(
+      sumOf(supported, (m) => m.f1),
+      supported.length,
+    ),
   };
 
   const diffs: CaseDiff[] = [];

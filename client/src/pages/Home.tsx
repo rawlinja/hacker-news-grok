@@ -52,14 +52,18 @@ export default function Home() {
       ) : (
         <>
           {loadedStories.length > 0 && <TagFilter facets={facets} />}
-          {visibleStories.map((story) => <StoryCard key={story.id} story={story} />)}
+          {visibleStories.map((story) => (
+            <StoryCard key={story.id} story={story} />
+          ))}
           {loading && <StatusMessage>Loading…</StatusMessage>}
           {!loading && loadedStories.length > 0 && (
             <button type="button" className={styles.loadMore} onClick={() => loadMore()}>
               Load more
             </button>
           )}
-          {!loading && !error && loadedStories.length === 0 && <StatusMessage>No stories here.</StatusMessage>}
+          {!loading && !error && loadedStories.length === 0 && (
+            <StatusMessage>No stories here.</StatusMessage>
+          )}
         </>
       )}
     </div>

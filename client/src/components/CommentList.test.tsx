@@ -3,9 +3,13 @@ import CommentList from './CommentList'
 import type { Comment } from '../types'
 
 const comments: Comment[] = [
-  { id: 1, by: 'alice', time: 0, text: 'top level', replies: [
-    { id: 2, by: 'bob', time: 0, text: 'a reply', replies: [] },
-  ] },
+  {
+    id: 1,
+    by: 'alice',
+    time: 0,
+    text: 'top level',
+    replies: [{ id: 2, by: 'bob', time: 0, text: 'a reply', replies: [] }],
+  },
 ]
 
 test('renders nested comments with authors', () => {

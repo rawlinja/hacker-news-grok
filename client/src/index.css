@@ -12,7 +12,9 @@
   -webkit-text-size-adjust: 100%;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -22,11 +24,16 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-a { color: inherit; }
+a {
+  color: inherit;
+}
 
 button {
   font: inherit;
   touch-action: manipulation;
 }
 
-img, svg { max-width: 100%; }
+img,
+svg {
+  max-width: 100%;
+}

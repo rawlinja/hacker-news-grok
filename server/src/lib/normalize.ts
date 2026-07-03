@@ -1,4 +1,4 @@
-import type { Story } from '../types';
+import type { Story } from '../types.js';
 
 export interface FirebaseItem {
   id: number;

@@ -7,7 +7,9 @@ import * as api from '../api'
 afterEach(() => vi.restoreAllMocks())
 
 test('does not fetch on mount; fetches on click', async () => {
-  const spy = vi.spyOn(api, 'getSummary').mockResolvedValue({ summary: 'TL;DR here', commentsUsed: 12 })
+  const spy = vi
+    .spyOn(api, 'getSummary')
+    .mockResolvedValue({ summary: 'TL;DR here', commentsUsed: 12 })
   render(<Summary storyId={5} />)
   expect(spy).not.toHaveBeenCalled()
   await userEvent.click(screen.getByRole('button', { name: /summarize/i }))
