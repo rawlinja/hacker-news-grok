@@ -6,9 +6,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.trigger {
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .clear {
@@ -19,29 +28,95 @@
   font-size: 0.85rem;
 }
 
-.chips {
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
   display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 2px;
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.chip,
-.chipActive {
-  flex: 0 0 auto;
-  min-height: 36px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
+.sheet {
+  width: 100%;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
   background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.85rem;
-  white-space: nowrap;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
 }
 
-.chipActive {
-  border-color: var(--accent);
-  color: var(--accent);
+.sheetHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1rem;
   font-weight: 600;
+}
+
+.close {
+  min-width: 36px;
+  min-height: 36px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.search {
+  width: 100%;
+  min-height: 40px;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 2px;
+  cursor: pointer;
+}
+
+.rowLabel {
+  flex: 1;
+}
+
+.rowCount {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheetFoot {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+}
+
+.clearAll {
+  min-height: 36px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.9rem;
 }
