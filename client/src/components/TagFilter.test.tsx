@@ -70,3 +70,16 @@ test('Clear all empties selected tags without closing the sheet', async () => {
   expect(useFeedStore.getState().selectedTags).toEqual([])
   expect(screen.getByRole('dialog')).toBeInTheDocument()
 })
+
+test('search narrows the visible rows by label and restores when cleared', async () => {
+  render(<TagFilter facets={facets} />)
+  await userEvent.click(screen.getByRole('button', { name: 'Filter' }))
+
+  const search = screen.getByPlaceholderText(/filter/i)
+  await userEvent.type(search, 'sec')
+  expect(screen.getByRole('checkbox', { name: /Security\/Privacy/ })).toBeInTheDocument()
+  expect(screen.queryByRole('checkbox', { name: /AI\/ML/ })).not.toBeInTheDocument()
+
+  await userEvent.clear(search)
+  expect(screen.getByRole('checkbox', { name: /AI\/ML/ })).toBeInTheDocument()
+})

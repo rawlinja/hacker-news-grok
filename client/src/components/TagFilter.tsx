@@ -9,6 +9,7 @@ export default function TagFilter({ facets }: { facets: TagFacet[] }) {
   const clearTags = useFeedStore((state) => state.clearTags)
 
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     if (!open) return
@@ -25,6 +26,11 @@ export default function TagFilter({ facets }: { facets: TagFacet[] }) {
 
   if (facets.length === 0) return null
 
+  const normalizedQuery = query.trim().toLowerCase()
+  const visibleFacets = normalizedQuery
+    ? facets.filter((facet) => facet.label.toLowerCase().includes(normalizedQuery))
+    : facets
+
   return (
     <div className={styles.filter}>
       <div className={styles.head}>
@@ -33,7 +39,10 @@ export default function TagFilter({ facets }: { facets: TagFacet[] }) {
           className={styles.trigger}
           aria-haspopup="dialog"
           aria-expanded={open}
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setQuery('')
+            setOpen(true)
+          }}
         >
           Filter{selectedTags.length > 0 ? ` (${selectedTags.length})` : ''}
         </button>
@@ -65,8 +74,16 @@ export default function TagFilter({ facets }: { facets: TagFacet[] }) {
               </button>
             </div>
 
+            <input
+              type="search"
+              className={styles.search}
+              placeholder="type to filter"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+
             <ul className={styles.list}>
-              {facets.map((facet) => (
+              {visibleFacets.map((facet) => (
                 <li key={facet.tag}>
                   <label className={styles.row}>
                     <input
