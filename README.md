@@ -1,6 +1,8 @@
 # HN Grok
 
-Mobile-first Hacker News reader: browse Top / New / Best, read a story's comments, get an AI-generated summary of the discussion, and filter the feed by topic tags.
+[![CI](https://github.com/rawlinja/hacker-news-grok/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rawlinja/hacker-news-grok/actions/workflows/ci.yml)
+
+Hacker News reader: browse Top / New / Best, read a story's comments, get an AI-generated summary of the discussion, and filter the feed by topic tags.
 
 - `server/` — Express 5 API (TypeScript, ESM). Proxies the Hacker News API and calls OpenAI. Runs on `:3001`.
 - `client/` — React 19 + Vite SPA. Runs on `:5173`, proxies `/api` to the server in dev.
