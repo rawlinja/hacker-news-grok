@@ -1,8 +1,6 @@
 # Eval dataset (private)
 
-`tags.json` holds the labeled ground-truth dataset for the tagging eval. It is
-**gitignored and kept private** — the curated labels are the valuable part and
-are never committed, only the framework is.
+`tags.json` holds the labeled ground-truth dataset for the tagging eval.
 
 To create your own:
 
