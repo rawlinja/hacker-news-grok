@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import type { Story } from '../src/types';
-import type { Case } from './schema';
+import type { Story } from '../src/types.js';
+import type { Case } from './schema.js';
 
 export const DATASET_PATH = fileURLToPath(new URL('./dataset/tags.json', import.meta.url));
 

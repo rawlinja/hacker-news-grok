@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { stripHtml } from './hn';
+import { stripHtml } from './hn.js';
 
 describe('stripHtml', () => {
   it('removes tags and decodes entities', () => {

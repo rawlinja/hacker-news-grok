@@ -35,8 +35,8 @@ export interface Story {
   time: number;
   descendants: number;
   type: string;
-  url?: string;
-  text?: string;
+  url?: string | undefined;
+  text?: string | undefined;
   tags: Tag[];
 }
 

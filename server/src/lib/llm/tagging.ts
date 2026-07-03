@@ -1,8 +1,8 @@
-import { TAGS, type Story, type Tag } from '../../types';
-import { stripHtml } from '../hn';
-import { fetchUrlExcerpt } from '../content';
-import { getClient } from './client';
-import { TAGGING_PROMPT } from './prompts';
+import { TAGS, type Story, type Tag } from '../../types.js';
+import { stripHtml } from '../hn.js';
+import { fetchUrlExcerpt } from '../content.js';
+import { getClient } from './client.js';
+import { TAGGING_PROMPT } from './prompts.js';
 
 const ALLOWED_TAGS = new Set<string>(TAGS);
 const MAX_TEXT_EXCERPT_CHARS = 1200;

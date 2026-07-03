@@ -2,9 +2,9 @@ import { config } from 'dotenv';
 import { fileURLToPath } from 'node:url';
 import express, { type ErrorRequestHandler } from 'express';
 import cors from 'cors';
-import feedRouter from './routes/feed';
-import storyRouter from './routes/story';
-import summaryRouter from './routes/summary';
+import feedRouter from './routes/feed.js';
+import storyRouter from './routes/story.js';
+import summaryRouter from './routes/summary.js';
 
 config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 

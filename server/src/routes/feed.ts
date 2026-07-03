@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getStories } from '../lib/hn';
-import { attachTags } from '../lib/llm/tagging';
-import type { Feed } from '../types';
+import { getStories } from '../lib/hn.js';
+import { attachTags } from '../lib/llm/tagging.js';
+import type { Feed } from '../types.js';
 
 const VALID_FEEDS: Feed[] = ['top', 'new', 'best'];
 const router = Router();

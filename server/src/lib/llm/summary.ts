@@ -1,7 +1,7 @@
-import type { Story, Comment, StorySummary } from '../../types';
-import { stripHtml } from '../hn';
-import { getClient } from './client';
-import { SUMMARY_PROMPT } from './prompts';
+import type { Story, Comment, StorySummary } from '../../types.js';
+import { stripHtml } from '../hn.js';
+import { getClient } from './client.js';
+import { SUMMARY_PROMPT } from './prompts.js';
 
 export interface TranscriptResult {
   transcript: string;

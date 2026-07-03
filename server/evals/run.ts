@@ -1,11 +1,11 @@
 import { config } from 'dotenv';
 import { fileURLToPath } from 'node:url';
-import { tagStories, type ExcerptFetcher } from '../src/lib/llm/tagging';
-import type { Story } from '../src/types';
-import type { Case, RunReport, Thresholds } from './schema';
-import { caseToStory, loadCases } from './dataset';
-import { grade } from './graders/multilabel';
-import { type ComparisonEntry, nextRunId, printComparison, printReport, writeReport } from './report';
+import { tagStories, type ExcerptFetcher } from '../src/lib/llm/tagging.js';
+import type { Story } from '../src/types.js';
+import type { Case, RunReport, Thresholds } from './schema.js';
+import { caseToStory, loadCases } from './dataset.js';
+import { grade } from './graders/multilabel.js';
+import { type ComparisonEntry, nextRunId, printComparison, printReport, writeReport } from './report.js';
 
 config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 

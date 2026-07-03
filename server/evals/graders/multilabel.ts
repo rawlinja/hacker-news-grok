@@ -1,5 +1,5 @@
-import { TAGS } from '../../src/types';
-import type { Case, CaseDiff, MetricScope, RunReport, TagMetrics } from '../schema';
+import { TAGS } from '../../src/types.js';
+import type { Case, CaseDiff, MetricScope, RunReport, TagMetrics } from '../schema.js';
 
 function ratio(numerator: number, denominator: number): number {
   return denominator === 0 ? 0 : numerator / denominator;

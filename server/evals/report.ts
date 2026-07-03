@@ -1,6 +1,6 @@
 import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import type { RunReport, TagMetrics } from './schema';
+import type { RunReport, TagMetrics } from './schema.js';
 
 const RESULTS_DIR = fileURLToPath(new URL('./results/', import.meta.url));
 const COLUMN_WIDTHS = [22, 5, 5, 5, 8, 8, 8];

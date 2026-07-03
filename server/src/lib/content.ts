@@ -1,5 +1,5 @@
 import { extract } from '@extractus/article-extractor';
-import { stripHtml } from './hn';
+import { stripHtml } from './hn.js';
 
 const MAX_EXCERPT_CHARS = 1200;
 const FETCH_TIMEOUT_MS = 5000;

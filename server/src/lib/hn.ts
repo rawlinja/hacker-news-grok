@@ -1,5 +1,5 @@
-import type { Feed, Story, Comment, StoryWithComments } from '../types';
-import { toStory, type FirebaseItem } from './normalize';
+import type { Feed, Story, Comment, StoryWithComments } from '../types.js';
+import { toStory, type FirebaseItem } from './normalize.js';
 
 const BASE_URL = 'https://hacker-news.firebaseio.com/v0';
 

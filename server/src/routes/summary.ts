@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getStoryWithComments } from '../lib/hn';
-import { summarizeDiscussion } from '../lib/llm/summary';
+import { getStoryWithComments } from '../lib/hn.js';
+import { summarizeDiscussion } from '../lib/llm/summary.js';
 
 const router = Router();
 

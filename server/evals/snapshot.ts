@@ -1,8 +1,8 @@
 import { config } from 'dotenv';
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { collectExcerpts } from '../src/lib/llm/tagging';
-import { DATASET_PATH, caseToStory, loadCases } from './dataset';
+import { collectExcerpts } from '../src/lib/llm/tagging.js';
+import { DATASET_PATH, caseToStory, loadCases } from './dataset.js';
 
 config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 

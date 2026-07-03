@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { buildTagInput, collectExcerpts, parseTagResults, attachTags } from './tagging';
-import type { Story } from '../../types';
+import { buildTagInput, collectExcerpts, parseTagResults, attachTags } from './tagging.js';
+import type { Story } from '../../types.js';
 
 const story = (over: Partial<Story>): Story => ({
   id: 1, title: 'T', by: 'a', score: 0, time: 0, descendants: 0, type: 'story', tags: [], ...over,

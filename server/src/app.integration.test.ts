@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import request from 'supertest';
-import app from './app';
+import app from './app.js';
 
 describe('Browse top/new/best stories', () => {
   it('returns stories for each feed', async () => {

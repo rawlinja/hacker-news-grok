@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toExcerpt } from './content';
+import { toExcerpt } from './content.js';
 
 describe('toExcerpt', () => {
   it('combines title, description, and stripped content', () => {

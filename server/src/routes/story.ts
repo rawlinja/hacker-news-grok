@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getStoryWithComments } from '../lib/hn';
+import { getStoryWithComments } from '../lib/hn.js';
 
 const router = Router();
 
