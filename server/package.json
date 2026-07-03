@@ -18,8 +18,8 @@
     "eval:snapshot": "tsx evals/snapshot.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Jermaine Rawlins",
+  "license": "MIT",
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
