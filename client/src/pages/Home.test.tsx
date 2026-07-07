@@ -90,7 +90,8 @@ test('filters the list to stories with the selected tag', async () => {
     </MemoryRouter>,
   )
   await screen.findByText('Story 1')
-  await userEvent.click(screen.getByRole('button', { name: /AI\/ML/ }))
+  await userEvent.click(screen.getByRole('button', { name: 'Filter' }))
+  await userEvent.click(screen.getByRole('checkbox', { name: /AI\/ML/ }))
   expect(screen.getByText('Story 1')).toBeInTheDocument()
   await waitFor(() => expect(screen.queryByText('Story 2')).not.toBeInTheDocument())
 })
