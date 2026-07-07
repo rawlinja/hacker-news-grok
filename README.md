@@ -56,7 +56,7 @@ The built client is static files that call `/api` on their own origin. In produc
 ## Structure
 
 - `server/src/` — HN gateway, OpenAI (summaries + tagging), routes
-- `server/evals/` — tagging eval harness (labeled dataset is private, gitignored)
+- `server/evals/` — tagging eval harness
 - `client/src/` — pages, components, feed store, API client
 
 ## License

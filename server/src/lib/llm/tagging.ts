@@ -3,6 +3,8 @@ import { stripHtml } from '../hn.js';
 import { fetchUrlExcerpt } from '../content.js';
 import { getClient } from './client.js';
 import { TAGGING_PROMPT } from './prompts.js';
+import { db } from '../../db/index.js';
+import { createSqliteTagStore, type TagStore } from './tagStore.js';
 
 const ALLOWED_TAGS = new Set<string>(TAGS);
 const MAX_TEXT_EXCERPT_CHARS = 1200;
@@ -89,18 +91,23 @@ export async function tagStories(
   }
 }
 
-const tagCache = new Map<number, string[]>();
+const defaultStore = createSqliteTagStore(db);
 
 export async function attachTags(
   stories: Story[],
   tagger: (stories: Story[]) => Promise<Map<number, string[]>> = tagStories,
+  store: TagStore = defaultStore,
 ): Promise<Story[]> {
-  const untaggedStories = stories.filter((story) => !tagCache.has(story.id));
+  const cached = store.getMany(stories.map((story) => story.id));
+  const untaggedStories = stories.filter((story) => !cached.has(story.id));
+
   if (untaggedStories.length > 0) {
     const freshTags = await tagger(untaggedStories);
-    for (const story of untaggedStories) {
-      tagCache.set(story.id, freshTags.get(story.id) ?? []);
-    }
+    // Persist only ids the tagger actually returned. A failed or partial batch
+    // omits stories, so they retry next load instead of being cached as [].
+    store.setMany(freshTags);
+    for (const [id, tags] of freshTags) cached.set(id, tags);
   }
-  return stories.map((story) => ({ ...story, tags: (tagCache.get(story.id) ?? []) as Tag[] }));
+
+  return stories.map((story) => ({ ...story, tags: (cached.get(story.id) ?? []) as Tag[] }));
 }
