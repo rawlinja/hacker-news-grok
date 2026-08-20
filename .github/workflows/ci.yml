@@ -19,7 +19,7 @@ jobs:
           version: 11.8.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 26
           cache: pnpm
           cache-dependency-path: server/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
@@ -40,7 +40,7 @@ jobs:
           version: 11.8.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 26
           cache: pnpm
           cache-dependency-path: client/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
