@@ -4,6 +4,13 @@
   "version": "0.0.0",
   "author": "Jermaine Rawlins",
   "license": "MIT",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.22.0",
+      "onFail": "download"
+    }
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
