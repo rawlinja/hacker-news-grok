@@ -24,6 +24,9 @@ cp server/.env.example server/.env   # then set OPENAI_API_KEY
 - `OPENAI_API_KEY` — required for AI summaries and tagging
 - `OPENAI_MODEL` — default `gpt-4o-mini`
 - `PORT` — default `3001`
+- `DB_PATH` — SQLite file for the tag cache, default `./data/tags.db`
+
+Story tags are cached in that SQLite file, so each story is only sent to the model once and tags survive a restart. Point `DB_PATH` at `:memory:` for a throwaway cache.
 
 ## Development
 
@@ -52,10 +55,13 @@ The built client is static files that call `/api` on their own origin. In produc
 | `typecheck` | tsc | tsc |
 | `lint` / `format` | eslint / prettier | eslint / prettier |
 | `test` | vitest | vitest |
+| `test:integration` | vitest, live HN + OpenAI | — |
+
+`pnpm test` is what CI runs and needs no network or API key. `pnpm --dir server test:integration` exercises the routes end to end against the live Hacker News API and OpenAI, so it needs both.
 
 ## Structure
 
-- `server/src/` — HN gateway, OpenAI (summaries + tagging), routes
+- `server/src/` — HN gateway, OpenAI (summaries + tagging), SQLite tag cache, routes
 - `server/evals/` — tagging eval harness
 - `client/src/` — pages, components, feed store, API client
 
