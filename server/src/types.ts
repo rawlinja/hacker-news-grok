@@ -1,4 +1,6 @@
-export type Feed = 'top' | 'new' | 'best';
+export const FEEDS = ['top', 'new', 'best'] as const;
+
+export type Feed = (typeof FEEDS)[number];
 
 export const TAGS = [
   'technical_deep_dive',
