@@ -9,7 +9,7 @@ Hacker News reader: browse Top / New / Best, read a story's comments, get an AI-
 
 ## Prerequisites
 
-- Node 24+
+- Node 26+
 - pnpm 11+
 - An OpenAI API key (for summaries and tagging; browsing works without one)
 
